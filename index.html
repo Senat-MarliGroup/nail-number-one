@@ -7,6 +7,36 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  /* Код для Chrome, Safari, Edge, Opera и Яндекс.Браузера */
+::-webkit-scrollbar {
+  width: 16px; /* Делает вертикальную полосу прокрутки шире (по умолчанию она около 8-10px) */
+  height: 16px; /* Ширина горизонтальной полосы прокрутки, если она появится */
+}
+
+/* Настройка самой дорожки, по которой двигается ползунок */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Светло-серый цвет дорожки, чтобы её было хорошо видно */
+  border-radius: 8px; /* Скругление углов дорожки */
+}
+
+/* Настройка самого ползунка, за который пользователь тянет мышкой */
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1; /* Цвет ползунка (можно заменить на цвет вашего бренда, например #b1907f) */
+  border-radius: 8px; /* Скругление углов ползунка */
+  border: 3px solid #f1f1f1; /* Отступ вокруг ползунка, чтобы он выглядел аккуратно */
+}
+
+/* Цвет ползунка при наведении на него курсора мыши */
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8; /* При наведении ползунок станет чуть темнее и заметнее */
+}
+
+/* Код отдельно для браузера Firefox */
+html {
+  scrollbar-width: auto; /* Включает стандартную (не тонкую) полосу */
+  scrollbar-color: #c1c1c1 #f1f1f1; /* Цвет ползунка и цвет дорожки */
+}
+
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     img { max-width: 100%; height: auto; display: block; }
