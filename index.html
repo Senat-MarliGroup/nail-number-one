@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ногтевая N1 — Студия маникюра и педикюра в Краснодаре</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    :root {
+      --bg: #d5d0cc;
+      --bg-light: #e8e4e0;
+      --bg-dark: #b5b0aa;
+      --text: #2d2a28;
+      --text-soft: #6b6560;
+      --accent: #a08080;
+      --accent-light: #c9a0a0;
+      --accent-dark: #7a5a5a;
+      --card: #ffffff;
+      --radius: 28px;
+      --radius-sm: 20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Bubble wall texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.55) 0%, transparent 35%),
+        radial-gradient(circle at 85% 15%, rgba(255,255,255,0.4) 0%, transparent 30%),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.25) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(255,255,255,0.35) 0%, transparent 32%),
+        radial-gradient(circle at 75% 70%, rgba(255,255,255,0.45) 0%, transparent 28%),
+        radial-gradient(circle at 35% 40%, rgba(255,255,255,0.3) 0%, transparent 25%),
+        radial-gradient(circle at 90% 45%, rgba(255,255,255,0.2) 0%, transparent 35%),
+        radial-gradient(circle at 5% 60%, rgba(255,255,255,0.3) 0%, transparent 30%),
+        radial-gradient(circle at 60% 10%, rgba(255,255,255,0.35) 0%, transparent 22%),
+        radial-gradient(circle at 45% 85%, rgba(255,255,255,0.4) 0%, transparent 26%),
+        radial-gradient(circle at 15% 45%, rgba(255,255,255,0.2) 0%, transparent 20%),
+        radial-gradient(circle at 80% 90%, rgba(255,255,255,0.3) 0%, transparent 28%);
+      background-size: 100% 100%;
+      animation: bubblePulse 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes bubblePulse {
+      0% { opacity: 0.85; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.015); }
+    }
+
+    h1, h2, h3, .logo-text {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Header */
+    .topbar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 22px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .brand-mark {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: var(--card);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      flex-shrink: 0;
+      border: 2px solid rgba(160,128,128,0.2);
+    }
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-text .logo-text {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .brand-text span {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .hamburger {
+      width: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .hamburger div {
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    .hamburger div:nth-child(2) { width: 70%; margin-left: auto; }
+
+    /* Menu Overlay */
+    .nav-overlay {
+      position: fixed;
+      top: 0; right: 0;
+      width: 340px;
+      max-width: 85vw;
+      height: 100vh;
+      background: rgba(232,228,224,0.98);
+      backdrop-filter: blur(30px);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 28px;
+      padding: 100px 40px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(100%);
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+      box-shadow: -10px 0 40px rgba(0,0,0,0.08);
+    }
+    .nav-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(0);
+    }
+    .nav-overlay a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--text);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+    }
+    .nav-overlay a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      width: 0; height: 1px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      transition: 0.3s;
+      transform: translateX(-50%);
+    }
+    .nav-overlay a:hover::after { width: 100%; }
+
+    /* Hero */
+    .hero-section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      text-align: center;
+      padding: 0 20px 40px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(160,128,128,0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(160,128,128,0.1) 0%, transparent 35%),
+        linear-gradient(180deg, #3a3634 0%, #5a5552 50%, #7a7570 100%);
+      z-index: 0;
+    }
+    .hero-bubbles {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        radial-gradient(circle at 15% 25%, rgba(255,255,255,0.08) 0%, transparent 30%),
+        radial-gradient(circle at 70% 20%, rgba(255,255,255,0.06) 0%, transparent 25%),
+        radial-gradient(circle at 40% 60%, rgba(255,255,255,0.07) 0%, transparent 35%),
+        radial-gradient(circle at 85% 80%, rgba(255,255,255,0.05) 0%, transparent 28%),
+        radial-gradient(circle at 25% 75%, rgba(255,255,255,0.06) 0%, transparent 32%),
+        radial-gradient(circle at 60% 45%, rgba(255,255,255,0.04) 0%, transparent 26%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 32px;
+    }
+    .hero-content h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 12px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+    }
+    .hero-content p {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.8);
+      max-width: 520px;
+      margin: 0 auto 36px;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+    .btn-main {
+      padding: 16px 36px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 100px;
+    }
+    .btn-fill {
+      background: var(--card);
+      color: var(--text);
+    }
+    .btn-fill:hover {
+      background: var(--bg-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+    .btn-outline:hover {
+      border-color: #fff;
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* Sections */
+    .section {
+      padding: 100px 28px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-header {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 300;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .section-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .section-label::before,
+    .section-label::after {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.4;
+    }
+
+    /* Services */
+    .services-wrap {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 60px 40px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.04);
+    }
+    .services-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+    }
+    .service-box {
+      background: linear-gradient(145deg, #ffffff, #f5f2f0);
+      border-radius: var(--radius-sm);
+      padding: 40px 28px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+      transition: all 0.4s;
+      border: 1px solid rgba(160,128,128,0.08);
+    }
+    .service-box:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.06);
+      border-color: rgba(160,128,128,0.2);
+    }
+    .service-icon {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, var(--bg-light), var(--bg));
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 20px;
+      font-size: 1.6rem;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
+    }
+    .service-box h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+    .service-box p {
+      color: var(--text-soft);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    /* Fade in animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.9s cubic-bezier(0.16,1,0.3,1);
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Fixed side buttons */
+    .hero-side-btns {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .hero-side-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      text-decoration: none;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.3);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+    .hero-side-btn:hover {
+      transform: scale(1.12);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+    .hero-side-phone { background: var(--accent); }
+    .hero-side-book {
+      background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
+    }
+
+    @media (max-width: 900px) {
+      .services-wrap { padding: 40px 24px; }
+      .contact-card { grid-template-columns: 1fr; padding: 40px 28px; text-align: center; }
+      .contact-info { align-items: center; }
+      .info-line { justify-content: center; }
+      .contact-actions { align-items: center; }
+      .interior-item { flex: 0 0 80vw; }
+      .review-card { flex: 0 0 300px; }
+    }
+    @media (max-width: 600px) {
+      .section { padding: 70px 20px; }
+      .services-wrap { padding: 36px 20px; }
+      .hero-section { min-height: 100vh; padding-bottom: 40px; }
+      .hero-content { margin-bottom: 20px; }
+      .hero-side-btn { width: 48px; height: 48px; }
+      .hero-side-btns { right: 16px; bottom: 16px; gap: 10px; }
+    }
+    @media (min-width: 1024px) {
+      .section { padding: 120px 40px; }
+      .hero-content { margin-bottom: 60px; }
+      .hero-content h1 { font-size: 3.4rem; letter-spacing: 8px; }
+      .hero-side-btns { right: 32px; bottom: 32px; }
+      .reviews-scroll { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; overflow-x: visible; }
+      .reviews-scroll .review-card { flex: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="topbar">
+    <a href="#" class="brand">
+      <div class="brand-mark">
+        <svg width="34" height="34" viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="28" stroke="#a08080" stroke-width="1.5" fill="#fff"/>
+          <text x="30" y="26" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="18" fill="#a08080" font-weight="600">N1</text>
+          <text x="30" y="38" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="6" fill="#6b6560" letter-spacing="1">НОГТЕВАЯ</text>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="logo-text">Ногтевая N1</span>
+        <span>Студия маникюра</span>
+      </div>
+    </a>
+    <div class="topbar-right">
+      <div class="hamburger" id="hamburger">
+        <div></div><div></div><div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <nav class="nav-overlay" id="navOverlay">
+    <a href="#about" onclick="toggleMenu()">О нас</a>
+    <a href="#services" onclick="toggleMenu()">Услуги</a>
+    <a href="#portfolio" onclick="toggleMenu()">Портфолио</a>
+    <a href="#reviews" onclick="toggleMenu()">Отзывы</a>
+    <a href="#contacts" onclick="toggleMenu()">Контакты</a>
+    <a href="https://n1070099.yclients.com/company/989913/personal/select-services?o=" target="_blank" onclick="toggleMenu()">Онлайн-запись</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-section">
+    <div class="hero-bg"></div>
+    <div class="hero-bubbles"></div>
+    <div class="hero-content fade-in">
+      <h1>Ногтевая N1</h1>
+      <p>Студия маникюра, педикюра и beauty-услуг в Краснодаре. Аккуратность, стерильность и стильный дизайн — то, ради чего к нам возвращаются.</p>
+      <a href="https://n1070099.yclients.com/company/989913/personal/select-services?o=" target="_blank" class="btn-main btn-fill">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Онлайн-запись
+      </a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <div class="section" id="about">
+    <div class="section-header fade-in">
+      <div class="section-label">О нас</div>
+      <h2>Место, где любят ногти</h2>
+    </div>
+    <div class="fade-in" style="text-align:center;">
+      <p style="color:var(--text-soft);font-size:0.95rem;line-height:1.8;max-width:640px;margin:0 auto;">
+        Ногтевая N1 — это студия маникюра и педикюра в Краснодаре, где работают мастера с многолетним опытом. 
+        Мы следим за трендами, используем качественные материалы и создаём атмосферу, в которой хочется возвращаться. 
+        От классического покрытия до сложного дизайна — воплощаем любые идеи.
+      </p>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="section" id="services">
+    <div class="section-header fade-in">
+      <div class="section-label">Услуги</div>
+      <h2>Что мы делаем</h2>
+    </div>
+    <div class="services-wrap fade-in">
+      <div class="services-row">
+        <div class="service-box">
+          <div class="service-icon">💅</div>
+          <h3>Маникюр</h3>
+          <p>Классический, аппаратный, комби. Покрытие гель-лаком и уход за кутикулой.</p>
+        </div>
+        <div class="service-box">
+          <div class="service-icon">🦶</div>
+          <h3>Педикюр</h3>
+          <p>Smart-педикюр, обработка стоп и пальчиков. Идеальные ножки круглый год.</p>
+        </div>
+        <div class="service-box">
+          <div class="service-icon">✨</div>
+          <h3>Дизайн ногтей</h3>
+          <p>Ручная роспись, стразы, френч, омбре и любые сложные техники.</p>
+        </div>
+        <div class="service-box">
+          <div class="service-icon">👁</div>
+          <h3>Брови</h3>
+          <p>Коррекция формы, окрашивание хной или краской, ламинирование.</p>
+        </div>
+        <div class="service-box">
+          <div class="service-icon">🌸</div>
+          <h3>Ресницы</h3>
+          <p>Ламинирование, окрашивание, наращивание — выразительный взгляд.</p>
+        </div>
+        <div class="service-box">
+          <div class="service-icon">💄</div>
+          <h3>Макияж & Косметика</h3>
+          <p>Дневной, вечерний, свадебный макияж. Уходовые процедуры для кожи.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- PORTFOLIO -->
+  <div class="section" id="portfolio">
+    <div class="section-header fade-in">
+      <div class="section-label">Портфолио</div>
+      <h2>Наши работы</h2>
+    </div>
+    <div class="interior-scroll fade-in" style="display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:20px;">
+      <div class="interior-item" style="flex:0 0 85vw;max-width:420px;scroll-snap-align:start;" onclick="openBox('work1.jpg')">
+        <img src="work1.jpg" alt="Работа 1" style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--radius-sm);">
+      </div>
+      <div class="interior-item" style="flex:0 0 85vw;max-width:420px;scroll-snap-align:start;" onclick="openBox('work2.jpg')">
+        <img src="work2.jpg" alt="Работа 2" style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--radius-sm);">
+      </div>
+      <div class="interior-item" style="flex:0 0 85vw;max-width:420px;scroll-snap-align:start;" onclick="openBox('work3.jpg')">
+        <img src="work3.jpg" alt="Работа 3" style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--radius-sm);">
+      </div>
+      <div class="interior-item" style="flex:0 0 85vw;max-width:420px;scroll-snap-align:start;" onclick="openBox('work4.jpg')">
+        <img src="work4.jpg" alt="Работа 4" style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--radius-sm);">
+      </div>
+      <div class="interior-item" style="flex:0 0 85vw;max-width:420px;scroll-snap-align:start;" onclick="openBox('work5.jpg')">
+        <img src="work5.jpg" alt="Работа 5" style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--radius-sm);">
+      </div>
+      <div class="interior-item" style="flex:0 0 85vw;max-width:420px;scroll-snap-align:start;" onclick="openBox('work6.jpg')">
+        <img src="work6.jpg" alt="Работа 6" style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--radius-sm);">
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <div class="section" id="reviews">
+    <div class="section-header fade-in">
+      <div class="section-label">Отзывы</div>
+      <h2>Доверие клиентов</h2>
+    </div>
+    <div class="reviews-scroll fade-in" style="display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:20px;">
+      <div class="review-card" style="flex:0 0 340px;scroll-snap-align:start;background:var(--card);border-radius:var(--radius-sm);padding:36px;box-shadow:0 4px 20px rgba(0,0,0,0.03);border:1px solid rgba(160,128,128,0.1);">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+          <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-light));display:grid;place-items:center;color:#fff;font-weight:600;font-size:0.9rem;">АК</div>
+          <div><div style="font-weight:600;font-size:0.95rem;">Анна К.</div><div style="color:#e6b54a;font-size:0.85rem;letter-spacing:1px;">★★★★★</div></div>
+        </div>
+        <p style="color:var(--text-soft);font-size:0.95rem;line-height:1.7;font-style:italic;font-family:'Cormorant Garamond', serif;font-size:1.05rem;">Хожу уже больше года, мастера всегда на высоте. Очень нравится атмосфера и чистота. Дизайны получаются просто огонь!</p>
+        <div style="margin-top:14px;font-size:0.78rem;color:#aaa;font-weight:500;">2GIS • 2026</div>
+      </div>
+      <div class="review-card" style="flex:0 0 340px;scroll-snap-align:start;background:var(--card);border-radius:var(--radius-sm);padding:36px;box-shadow:0 4px 20px rgba(0,0,0,0.03);border:1px solid rgba(160,128,128,0.1);">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+          <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-light));display:grid;place-items:center;color:#fff;font-weight:600;font-size:0.9rem;">МР</div>
+          <div><div style="font-weight:600;font-size:0.95rem;">Марина Р.</div><div style="color:#e6b54a;font-size:0.85rem;letter-spacing:1px;">★★★★★</div></div>
+        </div>
+        <p style="color:var(--text-soft);font-size:0.95rem;line-height:1.7;font-style:italic;font-family:'Cormorant Garamond', serif;font-size:1.05rem;">Лучшая студия в городе! Делают всё аккуратно, инструменты стерильные, мастера вежливые. Рекомендую всем подругам.</p>
+        <div style="margin-top:14px;font-size:0.78rem;color:#aaa;font-weight:500;">2GIS • 2026</div>
+      </div>
+      <div class="review-card" style="flex:0 0 340px;scroll-snap-align:start;background:var(--card);border-radius:var(--radius-sm);padding:36px;box-shadow:0 4px 20px rgba(0,0,0,0.03);border:1px solid rgba(160,128,128,0.1);">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+          <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-light));display:grid;place-items:center;color:#fff;font-weight:600;font-size:0.9rem;">ЕВ</div>
+          <div><div style="font-weight:600;font-size:0.95rem;">Екатерина В.</div><div style="color:#e6b54a;font-size:0.85rem;letter-spacing:1px;">★★★★★</div></div>
+        </div>
+        <p style="color:var(--text-soft);font-size:0.95rem;line-height:1.7;font-style:italic;font-family:'Cormorant Garamond', serif;font-size:1.05rem;">Делала и маникюр, и брови — всё на высшем уровне. Цены адекватные, а качество премиальное. Теперь только сюда!</p>
+        <div style="margin-top:14px;font-size:0.78rem;color:#aaa;font-weight:500;">2GIS • 2026</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+      <a href="https://2gis.ru/krasnodar/geo/70000001084338197" target="_blank" class="btn-main btn-outline" style="border-color:rgba(160,128,128,0.3);color:var(--text);border-radius:100px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Читать все 222 отзыва в 2ГИС
+      </a>
+    </div>
+  </div>
+
+  <!-- RATINGS -->
+  <div class="section">
+    <div class="section-header fade-in">
+      <div class="section-label">Рейтинг</div>
+      <h2>Нам доверяют</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;" class="fade-in">
+      <div style="background:var(--card);border:1px solid rgba(160,128,128,0.12);padding:48px 32px;text-align:center;border-radius:var(--radius-sm);transition:0.3s;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;color:var(--text);line-height:1;margin-bottom:12px;">4.8</div>
+        <div style="font-size:1.2rem;letter-spacing:4px;margin-bottom:12px;">★★★★★</div>
+        <div style="font-size:0.8rem;color:var(--text-soft);letter-spacing:1px;margin-bottom:20px;">255 оценок</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--text-soft);letter-spacing:2px;">2ГИС</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACTS -->
+  <div class="section" id="contacts">
+    <div class="section-header fade-in">
+      <div class="section-label">Контакты</div>
+      <h2>Ждём вас в гости</h2>
+    </div>
+    <div class="fade-in" style="background:var(--card);border:1px solid rgba(160,128,128,0.12);padding:60px;border-radius:var(--radius-sm);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;">
+        <h3 style="font-size:1.8rem;margin-bottom:8px;">Ногтевая N1</h3>
+        <div style="color:var(--text-soft);font-size:0.9rem;margin-bottom:32px;">Студия маникюра и педикюра</div>
+        <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:20px;color:var(--text-soft);font-size:0.95rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px;color:var(--accent-dark);"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div>ул. им. Ивана Беличенко, 89<br><span style="font-size:0.8rem;">Краснодар, Прикубанский округ</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:20px;color:var(--text-soft);font-size:0.95rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px;color:var(--accent-dark);"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+79184599953" style="color:var(--text);text-decoration:none;font-weight:500;">+7 (918) 459-99-53</a>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:14px;color:var(--text-soft);font-size:0.95rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px;color:var(--accent-dark);"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Ежедневно 9:00–21:00</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <a href="https://2gis.ru/krasnodar/geo/70000001084338197" target="_blank" class="btn-main btn-fill" style="justify-content:center;background:var(--accent);color:#fff;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+          Построить маршрут в 2ГИС
+        </a>
+        <a href="https://2gis.ru/krasnodar/geo/70000001084338197" target="_blank" class="btn-main btn-outline" style="justify-content:center;border-color:rgba(160,128,128,0.3);color:var(--text);border-radius:100px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Написать отзыв в 2ГИС
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer style="text-align:center;padding:48px 28px;color:var(--text-soft);font-size:0.8rem;letter-spacing:1px;border-top:1px solid rgba(160,128,128,0.15);">
+    <p>&copy; 2026 Ногтевая N1 &bull; Студия маникюра и педикюра в Краснодаре</p>
+    <p style="margin-top:6px;">Рейтинг 4.8 &bull; 255 оценок &bull; ул. им. Ивана Беличенко, 89</p>
+  </footer>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeBox()" style="position:fixed;inset:0;background:rgba(45,42,40,0.96);backdrop-filter:blur(10px);z-index:2000;display:none;place-items:center;">
+    <button class="lightbox-close" onclick="closeBox()" style="position:absolute;top:24px;right:24px;width:48px;height:48px;border-radius:50%;background:#fff;border:none;color:var(--text);font-size:1.4rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.1);">&times;</button>
+    <img id="lbImg" src="" alt="" style="max-width:88vw;max-height:82vh;border-radius:var(--radius-sm);box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+  </div>
+
+  <!-- FIXED SIDE BUTTONS -->
+  <div class="hero-side-btns">
+    <a href="tel:+79184599953" class="hero-side-btn hero-side-phone" title="Позвонить">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    </a>
+    <a href="https://n1070099.yclients.com/company/989913/personal/select-services?o=" target="_blank" class="hero-side-btn hero-side-book" title="Онлайн-запись">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    </a>
+  </div>
+
+  <script>
+    // MENU
+    const ham = document.getElementById('hamburger');
+    const nav = document.getElementById('navOverlay');
+    let menuOpen = false;
+    ham.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      nav.classList.toggle('show', menuOpen);
+    });
+    function toggleMenu() {
+      menuOpen = false;
+      nav.classList.remove('show');
+    }
+
+    // SCROLL REVEAL
+    const faders = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    faders.forEach(el => observer.observe(el));
+
+    // LIGHTBOX
+    function openBox(src) {
+      document.getElementById('lbImg').src = src;
+      document.getElementById('lightbox').style.display = 'grid';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeBox() {
+      document.getElementById('lightbox').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeBox(); });
+  </script>
+</body>
+</html>
