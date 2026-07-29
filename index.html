@@ -87,17 +87,35 @@
       gap: 14px;
       text-decoration: none;
     }
-    .brand-mark {
-  width: 56px; height: 56px;
+   .brand-mark {
+  width: 52px; height: 52px;
   border-radius: 50%;
-  background: var(--card);
-  display: grid;
-  place-items: center;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 4px 16px rgba(0,0,0,0.12);
   flex-shrink: 0;
   border: 2px solid rgba(160,128,128,0.2);
-  overflow: visible;
 }
+.logo-circle-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: #a08080;
+  line-height: 1;
+  margin-top: 2px;
+}
+.logo-circle-sub {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 6.5px;
+  color: #6b6560;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  margin-top: 2px;
+}
+
 
     .brand-text {
       display: flex;
@@ -440,12 +458,9 @@
   <!-- HEADER -->
   <header class="topbar">
     <a href="#" class="brand">
-    <div class="brand-mark">
-  <svg width="52" height="52" viewBox="0 0 200 200" fill="none" style="overflow:visible;">
-    <circle cx="100" cy="100" r="90" stroke="#a08080" stroke-width="4" fill="#fff"/>
-    <text x="100" y="100" text-anchor="middle" dy="0.15em" font-family="'Cormorant Garamond', serif" font-size="80" fill="#a08080" font-weight="600">N1</text>
-    <text x="100" y="100" text-anchor="middle" dy="2.6em" font-family="'Montserrat', sans-serif" font-size="22" fill="#6b6560" letter-spacing="4">НОГТЕВАЯ</text>
-  </svg>
+   <div class="brand-mark">
+  <div class="logo-circle-text">N1</div>
+  <div class="logo-circle-sub">НОГТЕВАЯ</div>
 </div>
 
       <div class="brand-text">
